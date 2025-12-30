@@ -1,6 +1,7 @@
 package baekjoon.p1749;
 
 // 백준 1749 점수 따먹기
+// kadane 활용
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,25 +13,26 @@ public class Main {
     static int[][] matrix;
     static BufferedReader br;
     static StringTokenizer st;
-    static int maxSum = 0;
-    static void dfs(int r, int c , int[] row, int[] col){
+    static int maxSum = Integer.MIN_VALUE;
 
-        if (r >= N){
-            int sum = 0;
-            for(int i=0 ; i < row.length; i++){
-                for (int j=0; j < col.length; j++){
-                    sum += matrix[row[i]][col[j]];
-                }
-            }
-            if (sum > maxSum){
-                maxSum = sum;
+    static void kadane(int top) {
+        int[] colSum = new int[M];
+
+        for (int bottom = top; bottom < N; bottom++) {
+            for (int i = 0; i < M; i++) {
+                colSum[i] += matrix[bottom][i];
             }
 
-        } else{
-            for
+            int cur = colSum[0];
+            int best = colSum[0];
+
+            for (int i = 1; i < M; i++) {
+                cur = Math.max(colSum[i], cur + colSum[i]);
+                best = Math.max(best, cur);
+            }
+            maxSum = Math.max(maxSum, best);
+
         }
-
-
 
     }
     public static void main(String[] args) throws IOException {
@@ -53,10 +55,9 @@ public class Main {
             }
         }
 
-        int[] row = new int[N];
-        int[] col = new int[M];
-
-        dfs(0,0,row,col);
+        for (int top= 0; top < N ; top++){
+            kadane(top);
+        }
 
         System.out.println(maxSum);
     }
