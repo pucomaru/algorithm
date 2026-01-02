@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 import java.util.Arrays;
 
-// 생각 정리
 // Kruskal 이용
 // 1. 일단 간선을 오름차 정렬
 // 2. MST이 완성 되면 ... MST이 됐다는건 간선이 (N-1)개가 됐다는거
