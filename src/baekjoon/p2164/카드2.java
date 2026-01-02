@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+// 품
 // 큐 방식은 맨 앞 원소를 제거하거나 뒤에 추가할 떄 실제로 모든 원소를 이동시키지 않고,
 // 맨 앞과 맨 뒤를 가리키는 위치만 변경한다. poll(),add() 는 카드들을 한 칸씩 밀어내는
 // 작업이 아니라 인덱스(포인터)만 이동하는 연선이어서 한 번에 처리되는 비용이 매우 작다.
