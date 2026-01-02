@@ -4,6 +4,13 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
+
+
+// 생각 정리
+// Kruskal 이용
+// 1. 일단 간선을 오름차 정렬
+// 2. MST이 완성 되면 ... MST이 됐다는건 간선이 (N-1)개가 됐다는거
+// 3. 2개의 마을을 만들라면 제일 가중치가 큰 간선하나를 없애는거
 public class Main {
     static BufferedReader br;
     static StringTokenizer st;
