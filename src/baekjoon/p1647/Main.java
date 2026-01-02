@@ -19,6 +19,22 @@ public class Main {
     static int N, M ;
     // 길 유지비를 저장한 2차원 배열
     static int[][] road;
+
+    // 부모 노드 저장 배열
+    static int[] parent;
+
+    // 유니온
+    static void union(int[] parent, int x, int y){
+        if (parent[x] != parent[y]) parent[y] = x;
+    }
+
+    // 파인드
+    static int find(int[] parent, int x){
+        if (parent[x] == x) return x;
+        else return parent[x] = find(parent, parent[x]);
+    }
+
+
     public static void main(String[] args) throws IOException {
         br = new BufferedReader(new InputStreamReader(System.in));
         st = new StringTokenizer(br.readLine());
