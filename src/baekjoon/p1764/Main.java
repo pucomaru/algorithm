@@ -5,27 +5,52 @@ package baekjoon.p1764;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.util.StringTokenizer;
+import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collections;
 
+// Hashset, 리스트/배열 차이.. util 등을 알게됨
 public class Main {
+
+    static BufferedReader br;
+    static StringTokenizer st;
+    static int N, M;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        br = new BufferedReader(new InputStreamReader(System.in));
+        st = new StringTokenizer(br.readLine());
+        // 듣도 못한 사람의 수
+        int N = Integer.parseInt(st.nextToken());
+        // 보도 못한 사람의 수
+        int M = Integer.parseInt(st.nextToken());
 
-        String[] peoples = br.readLine().split(" ");
-        int N = Integer.parseInt(peoples[0]);
-        int M = Integer.parseInt(peoples[1]);
+        // 듣도 못한 사람
+        HashSet<String> noHeard = new HashSet<>();
 
-        // N + M 만큼 배열 선언 ! 사람 이름이 다 다를 수도 있으니
-        String[] people = new String[N+M-1];
-
-        // 사람 배열에 사람이름 추가
-        for(int i = 0; i < N + M - 1 ; i ++){
-            String peopleName = br.readLine();
-            people[i] = peopleName;
+        // 듣도 못한 사람
+        for (int i = 0; i < N; i++) {
+            noHeard.add(br.readLine());
         }
 
-        int duplicatePerson = 0;
+        // 듣보잡 저장용 리스트 (정렬을 위해)
+        // 듣보잡이 몇명일지 모르니 가변의 속성을 가진 리스트 이용
+        ArrayList<String> result = new ArrayList<>();
 
-        for
+        // 보도 못한 사람
+        for (int i = 0; i < M; i++) {
+            String person = br.readLine();
 
+            if (noHeard.contains(person)) {
+                result.add(person);
+            }
+        }
+
+        Collections.sort(result);
+
+        System.out.println(result.size());
+        for (String name : result){
+            System.out.println(name);
+        }
     }
 }
