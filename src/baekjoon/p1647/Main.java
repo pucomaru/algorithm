@@ -10,6 +10,8 @@ import java.util.Arrays;
 // 1. 일단 간선을 오름차 정렬
 // 2. MST이 완성 되면 ... MST이 됐다는건 간선이 (N-1)개가 됐다는거
 // 3. 2개의 마을을 만들라면 제일 가중치가 큰 간선하나를 없애는거
+
+// union 코드 리팩토링했음
 public class Main {
     static BufferedReader br;
     static StringTokenizer st;
@@ -23,11 +25,15 @@ public class Main {
     static int[] parent;
 
     // 유니온
-    static void union(int[] parent, int x, int y) {
+    static boolean union(int[] parent, int x, int y) {
         x = find(parent, x);
         y = find(parent, y);
-        if (x < y) parent[y] = x;
+        // 이미 연결 돼있는경우
+        if (x == y) return false;
+        else if (x < y) parent[y] = x;
         else parent[x] = y;
+
+        return true;
     }
 
     // 파인드
@@ -37,16 +43,15 @@ public class Main {
     }
 
     // 크루스칼
-    static int kruskal(int[][] road, int[] parent, int M) {
+    static int kruskal(int[][] road, int[] parent) {
         int cost = 0;
         int countM = 0;
 
         // 간선의 개수가 N-2 될 시 종료
         for (int i = 0; i < road.length; i++) {
-            if (countM ==   N - 2) return cost;
-            if ((find(parent, parent[road[i][0]]) != find(parent, parent[road[i][1]]))) {
+            if (countM ==  N - 2) return cost;
+            if (union(parent, road[i][0], road[i][1])) {
                 cost += road[i][2];
-                union(parent, parent[road[i][0]], parent[road[i][1]]);
                 countM++;
             }
 
@@ -85,14 +90,14 @@ public class Main {
         Arrays.sort(road, (o1, o2) -> o1[2] - o2[2]);
 
 
-        int[] parent = new int[N+1];
+        parent = new int[N+1];
 
         // parent 배열 초기화
         for (int i = 1 ; i < parent.length ; i++ ){
             parent[i] = i ;
         }
 
-        result = kruskal(road, parent, M);
+        result = kruskal(road, parent);
 
         System.out.println(result);
     }
