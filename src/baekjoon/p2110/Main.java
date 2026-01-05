@@ -3,6 +3,7 @@ package baekjoon.p2110;
 import java.io.*;
 import java.util.*;
 
+// 이분탐색 + greedy
 public class Main {
 
     static BufferedReader br;
@@ -53,10 +54,10 @@ public class Main {
         // 결과 (인접한 공유기 최대 거리)
         int answer = 0 ;
         while (low <= high) {
-            int mid = low + high / 2;
+            int mid = (low + high) / 2;
 
             if (calculate(mid)) {
-                answer = mid + 1;
+                answer = mid;
                 low = mid + 1 ;
             } else {
                 high = mid - 1;
