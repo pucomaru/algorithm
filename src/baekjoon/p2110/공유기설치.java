@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 // 이분탐색 + greedy
-public class Main {
+public class 공유기설치 {
 
     static BufferedReader br;
     static StringTokenizer st;
