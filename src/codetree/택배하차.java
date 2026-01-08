@@ -2,7 +2,6 @@ import java.util.*;
 import java.io.*;
 
 public class 택배하차 {
-
     static BufferedReader br;
     static StringTokenizer st;
 
@@ -47,17 +46,55 @@ public class 택배하차 {
 
             // 직사각형 현재 위치를 담을 배열 [행시작, 행끝, 열시작, 열끝]
             int[] R = {0,h,c,w};
-            R = gravity(R[0],R[1],R[2],R[3],k);
+            R = gravityIn(R[0],R[1],R[2],R[3],k);
             location[k] = R;
 
-
         }
+
         // 택배 빼기
         while (getOfforder.size()<M){
 
             for (int i = 1 ; i <= M ; i++){
-                (if getOfforder.contains(i) ==){
-                    gravity();
+
+                // 택배를 뺄 때는 행 좌우를 보는게 중요함
+                int rowStart = location[i][0];
+                int rowEnd = location[i][1];
+                int colStart = location[i][2];
+                int colEnd = location[i][3];
+
+                // 뺼 수 있는지
+                int can = 1;
+
+                // 왼쪽 빼기
+                for (int r = rowStart; rowStart <= rowEnd; rowStart++) {
+                    for (int c = 0; c < colStart; c++ ){
+                        if (truck[r][c] > 0){
+                            can = 0;
+                            break;
+                        }
+                    }
+                }
+                // ㅇㄹ
+                // 오른쪽 빼기
+                for (int r = rowStart; rowStart <= rowEnd; rowStart++) {
+                    for (int c = colEnd+1; c < N; c++ ){
+                        if (truck[r][c] > 0){
+                            can = 0;
+                            break;
+                        }
+                    }
+                }
+
+
+
+                // getOfforder 에 숫자 들어가있으면 이미 하차한 거
+                (if !getOfforder.contains(i)){
+
+                    if (can == 1){
+                        gravityOut(location[i][0],location[i][1],location[i][2],location[i][3],i);
+                        getOfforder.add(i);
+                    }
+
                 }
             }
         }
@@ -76,8 +113,8 @@ public class 택배하차 {
     // 3. 택배 빼기
     // 4. 중력 떨어짐
 
-    // 택배 떨어짐
-    static int[] gravity(int rStart, int rEnd, int colStart,int colEnd, int rank){
+    // 택배 떨어짐 (택배 넣었을떄)
+    static int[] gravityIn(int rStart, int rEnd, int colStart,int colEnd, int rank){
 
         int rowlength = rEnd - rStart;
         int columnlength = colEnd - colStart;
@@ -106,6 +143,9 @@ public class 택배하차 {
         return now ;
     }
 
-    // 택배 빼기
+    // 택배 떨어짐 (택배 뻈을때)
+    static int[] gravityOut(){
+
+    }
 
 }
