@@ -53,9 +53,7 @@ public class 택배하차 {
 
         // 택배 빼기
         while (getOfforder.size()<M){
-
             for (int i = 1 ; i <= M ; i++){
-
                 // 택배를 뺄 때는 행 좌우를 보는게 중요함
                 int rowStart = location[i][0];
                 int rowEnd = location[i][1];
@@ -74,7 +72,7 @@ public class 택배하차 {
                         }
                     }
                 }
-                // ㅇㄹ
+
                 // 오른쪽 빼기
                 for (int r = rowStart; rowStart <= rowEnd; rowStart++) {
                     for (int c = colEnd+1; c < N; c++ ){
@@ -85,16 +83,11 @@ public class 택배하차 {
                     }
                 }
 
-
-
                 // getOfforder 에 숫자 들어가있으면 이미 하차한 거
                 (if !getOfforder.contains(i)){
-
                     if (can == 1){
-                        gravityOut(location[i][0],location[i][1],location[i][2],location[i][3],i);
-                        getOfforder.add(i);
-                    }
 
+                    }
                 }
             }
         }
@@ -102,9 +95,7 @@ public class 택배하차 {
         for(int i=0;i < M ;i++){
             System.out.println(getOfforder.indexOf(i));
         }
-
     }
-
 
     // 택배 총 과정
     // 1. 택배 총 배치
@@ -147,5 +138,6 @@ public class 택배하차 {
     static int[] gravityOut(){
 
     }
+
 
 }
