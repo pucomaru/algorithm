@@ -15,8 +15,8 @@ public class 택배하차 {
     // 택배 저장 칸
     static int[][] truck;
 
-    // 택배 위치 저장
-    static int[] location;
+    // 택배 현재 위치 저장 (truck 돌면서 택배 어디있는지 찾기 복잡하니 따로 변수 선언)
+    static int[][] location;
 
     // k = 택배 번호 / h = 세로 길이 // w = 가로 길이 // c = 왼쪽 열 위치
     static int k,h,w,c;
@@ -32,8 +32,9 @@ public class 택배하차 {
         M = Integer.parseInt(st.nextToken());
 
         truck = new int[N][N];
+        location = new int[M+1][];
+
         getOfforder = new ArrayList<>();
-        location = new int[M+1];
 
         // 택배 넣기
         for (int i = 0 ; i < M ; i++){
@@ -45,18 +46,12 @@ public class 택배하차 {
             c = Integer.parseInt(st.nextToken());
 
             // 직사각형 현재 위치를 담을 배열 [행시작, 행끝, 열시작, 열끝]
-            int[] R = new int[4] ;
+            int[] R = {0,h,c,w};
+            R = gravity(R[0],R[1],R[2],R[3],k);
+            location[k] = R;
 
-            R = gravity(h,w,c);
-
-            for (int r = R[0] ; r < R[1] ; r++){
-                for (int c = R[2] ; r < R[3] ; c ++){
-                    truck[r][c] = k;
-                }
-            }
 
         }
-
         // 택배 빼기
         while (getOfforder.size()<M){
 
@@ -81,15 +76,34 @@ public class 택배하차 {
     // 3. 택배 빼기
     // 4. 중력 떨어짐
 
-    // 탭개 떨어짐
-    static int[] gravity(int w, int h, int c){
+    // 택배 떨어짐
+    static int[] gravity(int rStart, int rEnd, int colStart,int colEnd, int rank){
 
-        int rowRange = 0;
-        int columnRange = 0;
-        int[] rectangleRange = new int[4];
+        int rowlength = rEnd - rStart;
+        int columnlength = colEnd - colStart;
 
+        // 최대로 떨어질 수 있는 행 저장
+        int drop = 0;
+        for (int i = rStart; i < N; i++){
+            // 떨어질때는 그 해당 열에 택배가 있는지만 확인
+            for (int j = colStart; j <= colEnd; j++){
+               if (truck[i][j]>0){
+                   break;
+               }
+               if (j == colEnd){
+                   drop = i;
+               }
+           }
+        }
 
-        return rectangleRange;
+        // 떨어진거 반영
+        for (int i = drop - rowlength; i <= drop ; i++ )
+            for (int j = colStart; j <= colEnd ;j++ ){
+                truck[i][j] = rank;
+            }
+
+        int[] now = {drop-rowlength,drop,colStart,colEnd};
+        return now ;
     }
 
     // 택배 빼기
