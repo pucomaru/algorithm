@@ -1,4 +1,3 @@
-import javax.swing.text.ParagraphView;
 import java.util.*;
 import java.io.*;
 
@@ -32,7 +31,7 @@ public class 택배하차 {
         M = Integer.parseInt(st.nextToken());
 
         truck = new int[N][N];
-        location = new int[M+1][4];
+        location = new int[101][4];
 
         getOfforder = new ArrayList<>();
 
@@ -43,10 +42,10 @@ public class 택배하차 {
             k = Integer.parseInt(st.nextToken());
             h = Integer.parseInt(st.nextToken());
             w = Integer.parseInt(st.nextToken());
-            c = Integer.parseInt(st.nextToken());
+            c = Integer.parseInt(st.nextToken()) - 1;
 
             // 직사각형 현재 위치를 담을 배열 [행시작, 행끝, 열시작, 열끝]
-            int[] R = {0,h,c,w};
+            int[] R = {0,h-1,c,c + w - 1};
             R = gravityIn(R[0],R[1],R[2],R[3],k);
             location[k] = R;
 
@@ -64,32 +63,32 @@ public class 택배하차 {
                 int colStart = location[i][2];
                 int colEnd = location[i][3];
 
-                // 뺼 수 있는지
-                int can = 1;
 
                 // 왼쪽 빼기
-                for (int r = rowStart; rowStart <= rowEnd; rowStart++) {
+                boolean left = true;
+                for (int r = rowStart; r <= rowEnd && left; r++) {
                     for (int c = 0; c < colStart; c++ ){
                         if (truck[r][c] > 0){
-                            can = 0;
+                            left = false;
                             break;
                         }
                     }
                 }
 
                 // 오른쪽 빼기
-                if (can == 0){
-                    for (int r = rowStart; rowStart <= rowEnd; rowStart++) {
+                boolean right = true;
+                if (!left){
+                    for (int r = rowStart; r <= rowEnd && right; r++) {
                         for (int c = colEnd+1; c < N; c++ ){
                             if (truck[r][c] > 0){
-                                can = 0;
+                                right = false;
                                 break;
                             }
                         }
                     }
                 }
 
-                if (can == 1){
+                if (left || right){
                     // 하차에 추가하기
                     getOfforder.add(i);
                     for (int r = rowStart ; r <= rowEnd ; r++){
@@ -104,9 +103,8 @@ public class 택배하차 {
             }
         }
 
-        for(int i=0;i < M ;i++){
-            System.out.println(getOfforder.indexOf(i));
-        }
+        // 결과값
+        for (int x : getOfforder) System.out.println(x);
     }
 
     // 택배 총 과정
@@ -120,20 +118,21 @@ public class 택배하차 {
     static int[] gravityIn(int rStart, int rEnd, int colStart,int colEnd, int rank){
 
         int rowlength = rEnd - rStart;
-        int columnlength = colEnd - colStart;
 
         // 최대로 떨어질 수 있는 행 저장
-        int drop = 0;
+        int drop = rEnd;
+
         for (int i = rStart; i < N; i++){
+            boolean canDrop = true ;
             // 떨어질때는 그 해당 열에 택배가 있는지만 확인
             for (int j = colStart; j <= colEnd; j++){
                if (truck[i][j]>0){
+                   canDrop = false;
                    break;
                }
-               if (j == colEnd){
-                   drop = i;
-               }
            }
+           if (canDrop) drop = i;
+           else break;
         }
 
         // 떨어진거 반영
@@ -148,21 +147,28 @@ public class 택배하차 {
 
     // 택배 떨어짐 (택배 뻈을때)
     // 택배 뺄 때는 이제 위에 있느 택배들을 확인해야함
-    static int[] gravityOut(int cStart, int cEnd, int rowStart){
-        for (int i = cStart ; i <= cEnd ; i ++){
-            for (int j = 0 ; j < rowStart ; j++){
-                if (truck[i][j] > 0 ){
-                   int nowGravity = truck[i][j];
-                   int rS = location[nowGravity][0];
-                   int rE = location[nowGravity][1];
-                   int cS = location[nowGravity][2];
-                   int cE = location[nowGravity][3];
+    static void gravityOut(int cStart, int cEnd, int rowStart) {
+        for (int i = cStart; i <= cEnd; i++) {
+            for (int j = 0; j < rowStart; j++) {
+                if (truck[j][i] > 0) {
+                    int nowGravity = truck[j][i];
+                    int rS = location[nowGravity][0];
+                    int rE = location[nowGravity][1];
+                    int cS = location[nowGravity][2];
+                    int cE = location[nowGravity][3];
 
-                   gravityIn(rS,rE, cS, cE, nowGravity);
+                    // 지금 떨어지는 택배는 사라지는 택배니깐 0처리
+                    for (int r = rS; r <= rE; r++) {
+                        for (int c = cS; c <= cE; c++) {
+                            truck[r][c] = 0;
+                        }
+                    }
+
+                    location[nowGravity] = gravityIn(rS, rE, cS, cE, nowGravity);
                 }
             }
         }
-
+    }
 
 
 }
