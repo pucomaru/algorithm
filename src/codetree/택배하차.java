@@ -1,3 +1,4 @@
+import javax.swing.text.ParagraphView;
 import java.util.*;
 import java.io.*;
 
@@ -31,7 +32,7 @@ public class 택배하차 {
         M = Integer.parseInt(st.nextToken());
 
         truck = new int[N][N];
-        location = new int[M+1][];
+        location = new int[M+1][4];
 
         getOfforder = new ArrayList<>();
 
@@ -54,6 +55,9 @@ public class 택배하차 {
         // 택배 빼기
         while (getOfforder.size()<M){
             for (int i = 1 ; i <= M ; i++){
+                // getOfforder 에 숫자 들어가있으면 이미 하차한 거
+                if (getOfforder.contains(i)) continue;
+
                 // 택배를 뺄 때는 행 좌우를 보는게 중요함
                 int rowStart = location[i][0];
                 int rowEnd = location[i][1];
@@ -74,21 +78,29 @@ public class 택배하차 {
                 }
 
                 // 오른쪽 빼기
-                for (int r = rowStart; rowStart <= rowEnd; rowStart++) {
-                    for (int c = colEnd+1; c < N; c++ ){
-                        if (truck[r][c] > 0){
-                            can = 0;
-                            break;
+                if (can == 0){
+                    for (int r = rowStart; rowStart <= rowEnd; rowStart++) {
+                        for (int c = colEnd+1; c < N; c++ ){
+                            if (truck[r][c] > 0){
+                                can = 0;
+                                break;
+                            }
                         }
                     }
                 }
 
-                // getOfforder 에 숫자 들어가있으면 이미 하차한 거
-                (if !getOfforder.contains(i)){
-                    if (can == 1){
-
+                if (can == 1){
+                    // 하차에 추가하기
+                    getOfforder.add(i);
+                    for (int r = rowStart ; r <= rowEnd ; r++){
+                        for (int c = colStart ; c <= colEnd ; c++) {
+                           truck[r][c] = 0;
+                        }
                     }
+                    gravityOut(colStart,colEnd,rowStart);
                 }
+
+
             }
         }
 
@@ -131,13 +143,26 @@ public class 택배하차 {
             }
 
         int[] now = {drop-rowlength,drop,colStart,colEnd};
-        return now ;
+        return now;
     }
 
     // 택배 떨어짐 (택배 뻈을때)
-    static int[] gravityOut(){
+    // 택배 뺄 때는 이제 위에 있느 택배들을 확인해야함
+    static int[] gravityOut(int cStart, int cEnd, int rowStart){
+        for (int i = cStart ; i <= cEnd ; i ++){
+            for (int j = 0 ; j < rowStart ; j++){
+                if (truck[i][j] > 0 ){
+                   int nowGravity = truck[i][j];
+                   int rS = location[nowGravity][0];
+                   int rE = location[nowGravity][1];
+                   int cS = location[nowGravity][2];
+                   int cE = location[nowGravity][3];
 
-    }
+                   gravityIn(rS,rE, cS, cE, nowGravity);
+                }
+            }
+        }
+
 
 
 }
