@@ -50,7 +50,7 @@ public class Main {
             String line = br.readLine();
             for (int j = 0; j < C; j ++){
                 map[i][j] = line.charAt(j);
-                if (map[i][j] == "G") {
+                if (map[i][j] == 'G') {
                     nowX = i;
                     nowY = j;
                 }
@@ -60,7 +60,15 @@ public class Main {
         result = 0;
 
 
-        dpMap(T);
+        dp(nowX,nowY,0, 0);
+
+        for (int i = 0; i < R ; i++) {
+            for (int j = 0; j < C; j++) {
+                System.out.print(dpMap[i][j]);
+            }
+            System.out.println();
+        }
+
 
         System.out.println(result);
     }
@@ -70,10 +78,29 @@ public class Main {
     // 2. 가희가 이동한 지점에 고구마가 있는 경우에는 , 고구마를 먹음
     // 3. 가희가 고구마를 먹으면 , 고구마가 다시 그 자리에 생기지 않음
     // 최대한 많은 고구마 먹기
-    static int dfs(int time){
+    // dfs하면 시간초과 해당 칸에 도착하는 최적의 시간을 dpMap에 저장해주자!
+    static void dp(int y, int x, int time, int eat){
+        if(time > T) {
+            if (eat > result) result = eat;
+            return;
+        }
+        else if(dpMap[y][x] <= time) {
+            if (map[y][x] == 'S') {
+                eat++;
+                map[y][x] = '.';
+            }
+            for (int i = 0 ; i < 4 ; i ++){
 
-        time
+                int nx = x + dx[i];
+                int ny = y + dy[i];
 
-        return 0;
+                // x,y가 현재 맵을 벗어나거나 이동한 곳이 막혀있으면 갈 수 없음
+                if ((0 > nx) || (nx >= C) ||  (0 > ny)
+                        || (ny >= R) || (map[ny][nx] == '#')) continue;
+                dpMap[y][x] = time;
+                dp(ny,nx,time + 1,eat);
+            }
+
+        }
     }
 }
