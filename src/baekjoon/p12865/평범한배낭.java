@@ -3,7 +3,7 @@ package baekjoon.p12865;
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class 평범한배낭 {
     static BufferedReader br;
     static StringTokenizer st;
 
@@ -18,7 +18,7 @@ public class Main {
     // DP
     static int[][] dp ;
 
-    public static void 평범한 배낭(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException {
         br = new BufferedReader(new InputStreamReader(System.in));
         st = new StringTokenizer(br.readLine());
 
