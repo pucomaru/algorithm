@@ -5,7 +5,9 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 import java.io.IOException;
 
-public class Main {
+// DP로 접근했는데 틀린 접근같음
+// 백트래킹
+public class 가희의고구마먹방_DP틀린풀이 {
 
     static BufferedReader br;
     static StringTokenizer st;
@@ -84,9 +86,12 @@ public class Main {
             if (eat > result) result = eat;
             return;
         }
-        else if(dpMap[y][x] <= time) {
+        else if(dpMap[y][x] > time) {
+            boolean doEat = false;
+            // 백트래킹 필요한 부분 여기서 먹은 처리하면 다른 경로에서는 이 칸에있는 고구마를 못먹음
             if (map[y][x] == 'S') {
                 eat++;
+
                 map[y][x] = '.';
             }
             for (int i = 0 ; i < 4 ; i ++){
