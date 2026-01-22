@@ -77,7 +77,7 @@ public class 다익스트라{
                 }
             }
         }
-        System.out.println(distance[도착점]);
+//        System.out.println(distance[도착점]);
 
     }
 
