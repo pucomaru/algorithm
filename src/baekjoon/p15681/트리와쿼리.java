@@ -51,8 +51,8 @@ public class 트리와쿼리 {
     }
 
     // 부모 정점 찾는 함수
-    static int find(int[] parent){
+    static void find(int[] parent){
 
-        return
+
     }
 }
