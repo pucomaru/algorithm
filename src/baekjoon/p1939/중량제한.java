@@ -3,7 +3,6 @@ package baekjoon.p1939;
 import java.io.*;
 import java.util.*;
 
-// 다익스트라로 풀었는데 접근 잘못된거같음 근데 gpt가 다익스트라 + min/max 기법 쓰면 된다는데 min/max를 어디서 적용하라는지 모르겠음
 public class 중량제한 {
 
     static BufferedReader br;
@@ -14,9 +13,11 @@ public class 중량제한 {
 
     static int start,end;
 
-    static int[] parent;
+    static List<Integer> weight;
 
-    // 유니온 - 파인드
+    static int result;
+    static int[] visited;
+
     public static void main(String[] args) throws IOException {
         br = new BufferedReader(new InputStreamReader(System.in));
         st = new StringTokenizer(br.readLine());
@@ -27,11 +28,7 @@ public class 중량제한 {
         M = Integer.parseInt(st.nextToken());
 
         road = new int[N+1][N+1];
-        parent = new int[N+1];
-
-        for (int i = 1 ; i < N + 1 ; i++){
-            parent[i] = i;
-        }
+        weight = new ArrayList<>();
 
         // 다리 정보 추가 + 이어져 있는 애들 합치기
         for (int i = 0 ; i < M ;i++){
@@ -41,35 +38,22 @@ public class 중량제한 {
             int c = Integer.parseInt(st.nextToken());
             road[a][b] = c;
             road[b][a] = c;
-            union(a,b);
+            weight.add(c);
         }
+
+        // 오름차순 정렬
+        Collections.sort(weight);
+        int mid = weight.size() / 2 ;
 
         st = new StringTokenizer(br.readLine());
         start = Integer.parseInt(st.nextToken());
         end = Integer.parseInt(st.nextToken());
 
-        int result = 0;
-        for (int i=1 ; i < N +1 ; i ++){
-
-            if (i != end){
-                if (parent[i] == parent[end] && result < road[end][i]){
-                    result = road[end][i];
-                }
-            }
-        }
-    }
-
-    static void union(int x, int y){
-        if (find(x) != find(y)){
-            if ( x == start ) parent[y] = x;
-            else if ( y == start) parent[x] = y;
-            else (x < y) parent[y] = x;
-        }
+        result = bfs(start, end);
 
     }
 
-    static int find(int x){
-        if (parent[x] == x) return x;
-        else return find(parent[x]);
+    static int bfs(int start, int end){
+        List<Integer>[] q = new List[];
     }
 }
