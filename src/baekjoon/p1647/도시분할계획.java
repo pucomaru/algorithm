@@ -12,7 +12,7 @@ import java.util.Arrays;
 // 3. 2개의 마을을 만들라면 제일 가중치가 큰 간선하나를 없애는거
 
 // union 코드 리팩토링했음
-public class Main {
+public class 도시분할계획 {
     static BufferedReader br;
     static StringTokenizer st;
 
