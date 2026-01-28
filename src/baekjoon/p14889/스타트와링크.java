@@ -3,6 +3,7 @@ package baekjoon.p14889;
 import java.io.*;
 import java.util.*;
 
+// 푸는중
 public class 스타트와링크 {
 
     static final int MAX_VALUE = Integer.MAX_VALUE;
