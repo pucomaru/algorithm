@@ -16,25 +16,31 @@ public class N과M_2 {
     public static void main(String[] args) throws IOException {
         br = new BufferedReader(new InputStreamReader(System.in));
         st = new StringTokenizer(br.readLine());
-        sb = new StringBuilder();
 
+        // 1 ~ N 수
         N = Integer.parseInt(st.nextToken());
+        // 길이 M
         M = Integer.parseInt(st.nextToken());
 
         arr = new int[M];
 
-        comb(0,M);
+        comb(1, 0);
     }
 
     static void comb(int start, int depth){
 
         if(depth == M){
+            for (int i = 0 ; i < M ; i++){
+                System.out.print(arr[i]);
+                if (i != M-1 )System.out.print(" ");
+            }
             System.out.println();
+            return;
         }
 
-        for (int i = start ; i < N + 1 ; i++ ){
+        for (int i = start ; i <= N ; i++ ){
             arr[depth] = i;
-
+            comb(i + 1, depth + 1 );
         }
     }
 }
