@@ -4,7 +4,7 @@ import java.io.*;
 import java.nio.Buffer;
 import java.util.*;
 
-// 조합문제 푸는중
+// 조합문제 품
 public class N과M_2 {
 
     static BufferedReader br;
