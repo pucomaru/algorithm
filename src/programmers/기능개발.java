@@ -16,24 +16,38 @@ class Solution {
 
         List<Integer> deploy = new ArrayList<>();
 
-        ArrayDeque<Integer> work = new ArrayDeque<>();
-        ArrayDeque<Integer> workSpeed = new ArrayDeque<>();
+        int[] work = progresses.clone();
 
-        // progresses 에있는거 deque에다 넣기
-        for(int i = 0 ; i < progresses.length; i++){
-            work.add(progresses[i]);
-            workSpeed.add(speeds[i]);
-        }
+        int idx = 0;
 
-        while(work.isEmpty()){
-            for(int i = 0 ; i < work.size(); i++){
-                int firstWork = work.getFirst();
+        while(idx < work.length){
+            int firstWork = work[idx];
+            int firstWorkSpeed = speeds[idx];
+
+            int needDay = 0;
+
+            if((100-firstWork) % firstWorkSpeed == 0 ){
+                needDay = (100 - firstWork) / firstWorkSpeed;
+
+            } else{
+                needDay = (100 - firstWork) / firstWorkSpeed + 1;
+
             }
 
+            for(int i = idx ; i < work.length; i++){
+                work[i] = work[i] + needDay * speeds[i];
+            }
+
+            int count = 0;
+            while (idx < work.length && work[idx] >= 100){
+                idx++;
+                count++;
+            }
+
+            deploy.add(count);
         }
 
-
         int[] answer = {};
-        return answer;
+        return deploy.stream().mapToInt(i ->i).toArray();
     }
 }
